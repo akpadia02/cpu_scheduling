@@ -18,9 +18,9 @@ function App() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-      <div className="p-6 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-10 text-center">CPU Scheduling Simulator</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white px-4">
+      <div className="p-6 max-w-full sm:max-w-3xl md:max-w-4xl mx-auto w-full">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-10 text-center">CPU Scheduling Simulator</h1>
 
         <div className="mb-4">
           <label htmlFor="algorithm" className="mr-2 font-semibold">Select Algorithm:</label>
@@ -28,7 +28,7 @@ function App() {
             id="algorithm"
             value={algorithm}
             onChange={(e) => setAlgorithm(e.target.value)}
-            className="border px-2 py-1 text-white"
+            className="border px-2 py-1 text-white bg-gray-700 rounded"
           >
             <option value="fcfs">FCFS (First Come First Serve)</option>
             <option value="sjf">SJF (Shortest Job First)</option>
@@ -39,47 +39,52 @@ function App() {
 
         {simulation.results.length > 0 && (
           <>
-            <div className="mt-6">
+            <div className="mt-6 overflow-x-auto">
               <h2 className="text-xl font-semibold mb-2">Gantt Chart</h2>
-              <div className="flex gap-1">
+              <div className="flex flex-wrap gap-1 justify-start">
                 {simulation.results.map((r, i) => (
-                  <div key={i} className="border px-4 py-2 bg-white text-black">
-                    {r.pid}
-                    <div className="text-xs">
+                  <div
+                    key={i}
+                    className="border px-3 py-2 bg-white text-black text-xs sm:text-sm flex flex-col items-center min-w-[50px]"
+                  >
+                    <span>{r.pid}</span>
+                    <span className="text-[10px] sm:text-xs">
                       {r.start} - {r.end}
-                    </div>
+                    </span>
                   </div>
                 ))}
               </div>
 
               <h2 className="mt-4 text-xl font-semibold">Process Stats</h2>
-              <table className="w-full border mt-2">
-                <thead>
-                  <tr>
-                    <th>PID</th>
-                    <th>Arrival Time</th>
-                    <th>Burst Time</th>
-                    <th>Completion Time</th>
-                    <th>Waiting Time</th>
-                    <th>Turnaround Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {simulation.results.map((r, i) => (
-                    <tr key={i} className="text-center border-t">
-                      <td>{r.pid}</td>
-                      <td>{r.arrival}</td>
-                      <td>{r.burst}</td>
-                      <td>{r.end}</td>
-                      <td>{r.waiting}</td>
-                      <td>{r.turnaround}</td>
+              <div className="overflow-x-auto">
+                <table className="w-full border border-collapse text-sm sm:text-base">
+                  <thead>
+                    <tr>
+                      <th className="border px-2 py-1">PID</th>
+                      <th className="border px-2 py-1">Arrival Time</th>
+                      <th className="border px-2 py-1">Burst Time</th>
+                      <th className="border px-2 py-1">Completion Time</th>
+                      <th className="border px-2 py-1">Waiting Time</th>
+                      <th className="border px-2 py-1">Turnaround Time</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {simulation.results.map((r, i) => (
+                      <tr key={i} className="text-center border-t">
+                        <td className="border px-2 py-1">{r.pid}</td>
+                        <td className="border px-2 py-1">{r.arrival}</td>
+                        <td className="border px-2 py-1">{r.burst}</td>
+                        <td className="border px-2 py-1">{r.end}</td>
+                        <td className="border px-2 py-1">{r.waiting}</td>
+                        <td className="border px-2 py-1">{r.turnaround}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 text-sm sm:text-base">
               <h2 className="text-xl font-semibold mb-2">Performance Metrics</h2>
               <p>Average Turnaround Time: {simulation.avgTAT.toFixed(2)}</p>
               <p>Average Waiting Time: {simulation.avgWT.toFixed(2)}</p>
